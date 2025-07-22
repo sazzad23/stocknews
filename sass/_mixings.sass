@@ -1,0 +1,95 @@
+//Global Mixings
+
+=transition($property, $duration)
+ -webkit-transition: $property $duration
+ -moz-transition:    $property $duration
+ -ms-transition:     $property $duration
+ transition:         $property $duration
+
+
+=boxShadow( $value1, $value2, $value3, $color )
+  -webkit-box-shadow: $value1 $value2 $value3 $color
+  -moz-box-shadow:    $value1 $value2 $value3 $color
+  box-shadow:         $value1 $value2 $value3 $color
+
+
+=radius( $rad1, $rad2, $rad3, $rad4 )
+  -webkit-border-radius: $rad1 $rad2 $rad3 $rad4
+  -moz-border-radius:    $rad1 $rad2 $rad3 $rad4
+  border-radius:         $rad1 $rad2 $rad3 $rad4
+
+=radiusCmn( $radCmn )
+  -webkit-border-radius: $radCmn 
+  -moz-border-radius:    $radCmn 
+  border-radius:         $radCmn 
+
+=transformTranslate($x, $y)
+    -webkit-transform: translate($x, $y)
+    -moz-transform: translate($x, $y)
+    -ms-transform: translate($x, $y)
+    -o-transform: translate($x, $y)
+    transform: translate($x, $y)
+
+=transformTranslateY($y1)
+    -webkit-transform: translateY($y1)
+    -moz-transform: translateY($y1)
+    -ms-transform: translateY($y1)
+    -o-transform: translateY($y1)
+    transform: translateY($y1)
+
+=transformTranslateX($x1)
+    -webkit-transform: translateX($x1)
+    -moz-transform: translateX($x1)
+    -ms-transform: translateX($x1)
+    -o-transform: translateX($x1)
+    transform: translateX($x1)
+
+=transformScale($scale)
+    -webkit-transform: scale($scale)
+    -moz-transform: scale($scale)
+    -ms-transform: scale($scale)
+    -o-transform: scale($scale)
+    transform: scale($scale)
+
+=transformRotate($rotate)
+    -webkit-transform: rotate($rotate)
+    -moz-transform: rotate($rotate)
+    -ms-transform: rotate($rotate)
+    -o-transform: rotate($rotate)
+    transform: rotate($rotate)
+=displayFlex()
+  display: -webkit-box 
+  display: -moz-box        
+  display: -ms-flexbox   
+  display: -webkit-flex    
+  display: flex
+=alignItems($a)
+  -webkit-align-items: $a
+  align-items: $a
+=justifyContent($a)
+  -webkit-box-pack: $a
+  -ms-flex-pack: $a
+  justify-content: $a
+=flexWrap($a)
+  -webkit-flex-wrap: $a
+  flex-wrap: $a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

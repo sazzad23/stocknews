@@ -1,0 +1,125 @@
+@import "_mixings"
+@import "_variable"
+
+/* Base style */  
+html 
+    font-size: 62.5% 
+    overflow-x: hidden
+body
+    font-family: $fontDefault
+    overflow-x: hidden
+    font-size: 1.5rem
+    padding: 0
+    font-weight: 400
+
+.btn
+    cursor: pointer
+h1, h2
+    font-family: $fontDefault
+    font-weight: 700
+h3, h4, h5, h6
+    font-family: $fontDefault
+    font-weight: 700
+ul
+    margin: 0
+    padding: 0
+    list-style: none
+a, a:hover
+    text-decoration: none
+    color: inherit
+p
+    margin-bottom: 2rem
+.transition
+    +transition(all,.2s)
+.radius
+    +radiusCmn(6px)
+.transformCenter
+    +transformTranslate(-50%, -50%)
+.row
+    margin: 0 -1.5rem
+    div[class^="col-"]
+        padding: 0 1.5rem 
+.container, .container-fluid
+    padding: 0 1.5rem
+/* End Base style */
+.sec-pad
+    padding: 3rem 0
+.navbar
+    .navbar-toggler
+        border-color: transparent
+        color: #000
+        &:focus
+            outline: 0
+            box-shadow: none
+    .navbar-toggler-icon
+        background-image: none
+        width: 3rem
+        height: 3rem
+        position: relative
+        span
+            position: absolute
+            height: .3rem
+            width: 100%
+            top: 50%
+            left: 0px
+            margin-top: -.15rem
+            background: #000
+            +transition(all, .2s)
+            &:nth-of-type(1)
+                margin-top: -.9rem
+            &:nth-of-type(3)
+                margin-top: .7rem
+    .navbar-toggler[aria-expanded="true"]
+            .navbar-toggler-icon
+                span
+                    &:nth-of-type(1)
+                        margin-top: -.8rem
+                        -webkit-transform: rotate(45deg)
+                        -moz-transform: rotate(45deg)
+                        -ms-transform: rotate(45deg)
+                        transform: rotate(45deg)
+                        top: 2rem
+                    &:nth-of-type(3)
+                        margin-top: .6rem
+                        -webkit-transform: rotate(-45deg)
+                        -moz-transform: rotate(-45deg)
+                        -ms-transform: rotate(-45deg)
+                        transform: rotate(-45deg)
+                        top: .6rem
+                        left: 0
+                    &:nth-of-type(2)
+                        display: none
+
+
+
+@media only screen and (min-width: 1200px)
+    .container
+        max-width: 117rem
+@media only screen and (min-width: 2000px)
+
+
+@media only screen and (max-width: 1200px)
+
+            
+@media only screen and (max-width: 992px) 
+    .navbar-nav .dropdown-menu 
+        position: static
+        float: none
+        padding: 0px
+        background: transparent
+        border-color: transparent
+    div#navbarSupportedContent 
+        position: absolute
+        width: 100%
+        top: 100%
+        left: 0px
+        z-index: 999999
+        background: #333
+    .navbar-light .navbar-nav .nav-link
+        padding-left: 1.5rem
+        padding-right: 1.5rem
+            
+    
+@media only screen and (max-width: 767px)
+
+@media only screen and (max-width: 420px)
