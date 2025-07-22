@@ -1,7 +1,6 @@
-# Base image with Node.js
 FROM node:20-slim
 
-# Install required system dependencies for Puppeteer/Chromium
+# Install necessary system dependencies for Chromium
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -27,18 +26,19 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json files first
 COPY package*.json ./
+
+# Force Puppeteer to bundle Chromium inside node_modules
+ENV PUPPETEER_SKIP_DOWNLOAD=false
+ENV PUPPETEER_PRODUCT=chrome
 RUN npm install
 
-# Install Chrome for Puppeteer
-RUN npx puppeteer browsers install chrome
-
-# Copy the rest of the app files
+# Copy the rest of your code
 COPY . .
 
-# Expose the app port (adjust if using something else)
-EXPOSE 3000
+# Expose the port
+EXPOSE 3001
 
 # Start the app
 CMD ["node", "index.js"]
