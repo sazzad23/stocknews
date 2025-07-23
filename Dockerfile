@@ -1,7 +1,6 @@
-# Use official Node.js LTS image
 FROM node:18-slim
 
-# Install Puppeteer dependencies
+# Install dependencies for Puppeteer
 RUN apt-get update && apt-get install -y \
   ca-certificates \
   fonts-liberation \
@@ -20,22 +19,21 @@ RUN apt-get update && apt-get install -y \
   xdg-utils \
   wget \
   --no-install-recommends && \
+  apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if you have)
+# Copy dependency files and install
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy app source code
+# Copy remaining files
 COPY . .
 
-# Expose port 3001
+# Expose the app port
 EXPOSE 3001
 
-# Run the app
+# Start the app
 CMD ["node", "index.js"]
