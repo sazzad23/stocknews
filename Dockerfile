@@ -1,7 +1,7 @@
 # Use node base image
 FROM node:18-alpine
 
-# Install dependencies
+# Install required packages (Chromium etc.)
 RUN apk add --no-cache \
     chromium \
     nss \
@@ -13,21 +13,18 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# Copy only package.json first
+# Copy package files separately so Docker caches them
 COPY package*.json ./
 
-# Install node dependencies
+# Install dependencies (recreates node_modules in container)
 RUN npm install
 
-# Copy app source code
+# Copy remaining app code
 COPY . .
 
-# Set environment variables
+# Set Puppeteer env
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Expose port (optional, if using containerized access)
-EXPOSE 3001
-
-# Run app
+# Start the app
 CMD ["node", "index.js"]
