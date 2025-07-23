@@ -4,6 +4,8 @@ const puppeteer = require('puppeteer-core');
 const app = express();
 
 app.get('/', async (req, res) => {
+  const companyName = req.query.name || 'RECKITTBEN'; // Use GET variable or fallback
+
   try {
     const browser = await puppeteer.launch({
       headless: 'new',
@@ -12,7 +14,8 @@ app.get('/', async (req, res) => {
     });
 
     const page = await browser.newPage();
-    await page.goto('https://dsebd.org/displayCompany.php?name=RECKITTBEN');
+    const url = `https://dsebd.org/displayCompany.php?name=${encodeURIComponent(companyName)}`;
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const value = await page.evaluate(() => {
       const element = document.querySelector('.topBodyHead');
@@ -20,7 +23,7 @@ app.get('/', async (req, res) => {
     });
 
     await browser.close();
-    res.json({ success: true, value });
+    res.json({ success: true, company: companyName, value });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });
