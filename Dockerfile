@@ -1,35 +1,33 @@
-# Use Node.js 18 Alpine base image
+# Use node base image
 FROM node:18-alpine
 
-# Install necessary dependencies including Chromium
+# Install dependencies
 RUN apk add --no-cache \
     chromium \
     nss \
     freetype \
     harfbuzz \
     ca-certificates \
-    ttf-freefont \
-    nodejs \
-    yarn
+    ttf-freefont
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first (for layer caching)
+# Copy only package.json first
 COPY package*.json ./
 
-# Set environment variables before install
+# Install node dependencies
+RUN npm install
+
+# Copy app source code
+COPY . .
+
+# Set environment variables
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Install dependencies
-RUN npm install
-
-# Copy remaining project files
-COPY . .
-
-# Expose the app port (optional)
+# Expose port (optional, if using containerized access)
 EXPOSE 3001
 
-# Run the application
+# Run app
 CMD ["node", "index.js"]
