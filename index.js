@@ -12,10 +12,10 @@ app.get('/', async (req, res) => {
     });
 
     const page = await browser.newPage();
-    await page.goto('https://www.amarstock.com/stock/LHB');
+    await page.goto('https://dsebd.org/displayCompany.php?name=RECKITTBEN');
 
     const value = await page.evaluate(() => {
-      const element = document.querySelector('[data-key="AuditedPE"]');
+      const element = document.querySelector('.topBodyHead');
       return element ? element.textContent.trim() : null;
     });
 
