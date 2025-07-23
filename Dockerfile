@@ -1,11 +1,9 @@
-# Use slim image
 FROM node:18-slim
 
-# Set Google DNS to avoid DNS issues
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf
+WORKDIR /app
 
-# Now install Puppeteer dependencies
-RUN apt-get update && apt-get install -y \
+# Install Puppeteer dependencies with IPv4 enforced
+RUN apt-get -o Acquire::ForceIPv4=true update && apt-get install -y --no-install-recommends \
     ca-certificates \
     fonts-liberation \
     libatk-1.0-0 \
@@ -22,22 +20,15 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     xdg-utils \
     wget \
-    --no-install-recommends && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /app
-
-# Copy dependency files and install
+# Copy package files and install with IPv4 npm
 COPY package*.json ./
-RUN npm install
+RUN npm config set registry http://registry.npmjs.org && npm install
 
-# Copy remaining files
+# Copy rest of the code
 COPY . .
 
-# Expose the app port
 EXPOSE 3001
 
-# Start the app
 CMD ["node", "index.js"]
