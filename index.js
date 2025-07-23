@@ -15,15 +15,22 @@ app.get('/', async (req, res) => {
 
     const page = await browser.newPage();
     const url = `https://www.amarstock.com/stock/${encodeURIComponent(companyName)}`;
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
-    const value = await page.evaluate(() => {
-      const element = document.querySelector('div[data-key="EPS"]');
-      return element ? element.textContent.trim() : null;
-    });
+    try {
+      await page.waitForSelector('div[data-key="EPS"]', { timeout: 10000 });
 
-    await browser.close();
-    res.json({ success: true, company: companyName, value });
+      const value = await page.evaluate(() => {
+        const element = document.querySelector('div[data-key="EPS"]');
+        return element ? element.textContent.trim() : null;
+      });
+
+      await browser.close();
+      res.json({ success: true, company: companyName, value });
+    } catch (innerErr) {
+      await browser.close();
+      res.status(404).json({ success: false, company: companyName, error: 'EPS data not found or took too long to load.' });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });
