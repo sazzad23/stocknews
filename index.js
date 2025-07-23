@@ -14,11 +14,11 @@ app.get('/', async (req, res) => {
     });
 
     const page = await browser.newPage();
-    const url = `https://dsebd.org/displayCompany.php?name=${encodeURIComponent(companyName)}`;
+    const url = `https://www.amarstock.com/stock/${encodeURIComponent(companyName)}`;
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     const value = await page.evaluate(() => {
-      const element = document.querySelector('.topBodyHead');
+      const element = document.querySelector('div[data-key="EPS"]');
       return element ? element.textContent.trim() : null;
     });
 
