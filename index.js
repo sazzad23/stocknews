@@ -19,18 +19,32 @@ app.get('/', async (req, res) => {
 
     try {
       await page.waitForSelector('div[data-key="EPS"]', { timeout: 10000 });
-
+      //EPS
       const eps = await page.evaluate(() => {
         const element = document.querySelector('div[data-key="EPS"]');
         return element ? element.textContent.trim() : null;
       });
+      //PE
       const pe = await page.evaluate(() => {
         const element = document.querySelector('div[data-key="AuditedPE"]');
         return element ? element.textContent.trim() : null;
       });
+      
+      //Today's Price range
+      const dayRange = await page.evaluate(() => {
+        const element = document.querySelector('div[data-key="DayRange"]');
+        return element ? element.textContent.trim() : null;
+      });
+      
+      //Record date
+      const recordDate = await page.evaluate(() => {
+        const element = document.querySelector('#tab5 table tr:first-child td:last-child ');
+        return element ? element.textContent.trim() : null;
+      });
 
+      
       await browser.close();
-      res.json({ success: true, company: companyName, eps: eps, pe: pe });
+      res.json({ success: true, company: companyName, eps: eps, pe: pe, dayRange: dayRange, recordDate: recordDate });
     } catch (innerErr) {
       await browser.close();
       res.status(404).json({ success: false, company: companyName, error: 'EPS data not found or took too long to load.' });
