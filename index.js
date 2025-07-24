@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
       
       //Today's Price range
       const dayRange = await page.evaluate(() => {
-        const element = document.querySelector('div[data-key="DayRange"]');
+        const element = document.querySelector('span[data-key="DayRange"]');
         return element ? element.textContent.trim() : null;
       });
       
