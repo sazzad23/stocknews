@@ -20,13 +20,17 @@ app.get('/', async (req, res) => {
     try {
       await page.waitForSelector('div[data-key="EPS"]', { timeout: 10000 });
 
-      const value = await page.evaluate(() => {
+      const eps = await page.evaluate(() => {
         const element = document.querySelector('div[data-key="EPS"]');
+        return element ? element.textContent.trim() : null;
+      });
+      const pe = await page.evaluate(() => {
+        const element = document.querySelector('div[data-key="AuditedPE"]');
         return element ? element.textContent.trim() : null;
       });
 
       await browser.close();
-      res.json({ success: true, company: companyName, value });
+      res.json({ success: true, company: companyName, eps: eps, pe: pe });
     } catch (innerErr) {
       await browser.close();
       res.status(404).json({ success: false, company: companyName, error: 'EPS data not found or took too long to load.' });
