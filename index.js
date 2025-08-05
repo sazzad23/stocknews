@@ -34,10 +34,10 @@ app.get('/', async (req, res) => {
 
       
       await browser.close();
-      res.json({ success: true, value: value });
+      res.json({ success: true, value: value, company: companyName });
     } catch (innerErr) {
       await browser.close();
-      res.status(404).json({ success: false, value: value, error: 'News data not found or took too long to load.' });
+      res.status(404).json({ success: false, value: value, company: companyName, error: 'News data not found or took too long to load.' });
     }
   } catch (err) {
     console.error(err);
