@@ -14,40 +14,30 @@ app.get('/', async (req, res) => {
     });
 
     const page = await browser.newPage();
-    const url = `https://www.amarstock.com/stock/${encodeURIComponent(companyName)}`;
+    const url = `https://www.amarstock.com/dse-news-archive/${encodeURIComponent(companyName)}`;
     await page.goto(url, { waitUntil: 'networkidle2' });
 
     try {
-      await page.waitForSelector('div[data-key="EPS"]', { timeout: 10000 });
-      //EPS
-      const eps = await page.evaluate(() => {
-        const element = document.querySelector('div[data-key="EPS"]');
-        return element ? element.textContent.trim() : null;
-      });
-      //PE
-      const pe = await page.evaluate(() => {
-        const element = document.querySelector('div[data-key="AuditedPE"]');
-        return element ? element.textContent.trim() : null;
-      });
-      
-      //Today's Price range
-      const dayRange = await page.evaluate(() => {
-        const element = document.querySelector('span[data-key="DayRange"]');
-        return element ? element.textContent.trim() : null;
-      });
-      
-      //Record date
-      const recordDate = await page.evaluate(() => {
-        const element = document.querySelector('#tab5 table tr:first-child td:last-child ');
-        return element ? element.textContent.trim() : null;
+      // Wait for the news container to load
+      await page.waitForSelector('#tab-AllNews .single_news:first-child', { timeout: 10000 });
+      // News
+      const value = await page.evaluate(() => {
+        const element1 = document.querySelector('#tab-AllNews .single_news:first-child .small-12:first-child');
+        const element2 = document.querySelector('#tab-AllNews .single_news:first-child .small-12:last-child');
+  
+        const text1 = element1 ? element1.textContent.trim() : '';
+        const text2 = element2 ? element2.textContent.trim() : '';
+  
+        const result = text1 + ' ' + text2;
+        return result.trim() || null;
       });
 
       
       await browser.close();
-      res.json({ success: true, company: companyName, eps: eps, pe: pe, dayRange: dayRange, recordDate: recordDate });
+      res.json({ success: true, value: value });
     } catch (innerErr) {
       await browser.close();
-      res.status(404).json({ success: false, company: companyName, error: 'EPS data not found or took too long to load.' });
+      res.status(404).json({ success: false, value: value, error: 'News data not found or took too long to load.' });
     }
   } catch (err) {
     console.error(err);
@@ -55,6 +45,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.listen(3001, '0.0.0.0', () => {
-  console.log('Scraper running at http://0.0.0.0:3001/');
+app.listen(3002, '0.0.0.0', () => {
+  console.log('Scraper running at http://0.0.0.0:3002/');
 });
