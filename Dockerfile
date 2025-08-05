@@ -12,7 +12,7 @@ RUN npm install --only=production
 COPY . .
 
 # Expose app port
-EXPOSE 3001
+EXPOSE 3002
 
 # Run the app
 CMD ["node", "index.js"]
